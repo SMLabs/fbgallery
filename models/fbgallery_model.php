@@ -17,7 +17,7 @@ class fbgallery_model extends CI_Model {
 			
 			$this->db->where('aid',$album_id);
 		}
-		return $this->db->get($this->db->dbprefix('fb_albums'))->result_array();
+		return $this->db->get($this->db->dbprefix('fb_album'))->result_array();
 	}
 	
 	function getphotos($photo_id = NULL){

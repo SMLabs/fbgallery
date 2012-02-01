@@ -67,7 +67,7 @@ class Facebookapi {
 		
 		
 		// set sessions to the object
-	$this->set_sessions();
+$this->set_sessions();
 
 		// get token every time for additional users
 		#$this->token = $this->get_auth_token();
@@ -212,14 +212,14 @@ class Facebookapi {
 
 	function update_albums() {
 		global $wpdb;
-		$CI= &get_instance();
+
 		$this->increase_time_limit();
-		#print_r($this->sessions);exit;
+
 		// reset album import progress
 		$this->update_progress(true);
 
 		// if this is the first import then reset the order at the end to make the newest on top
-		$reset_order = count($CI->fbgallery_model->getAlbums()) > 0 ? false : true;
+		$reset_order = count($this->fbgallery_model->getAlbums()) > 0 ? false : true;
 
 		// get albums for each user from Facebook
 		$fb_albums = array(); $fb_photos = array();
@@ -229,7 +229,7 @@ class Facebookapi {
 			$this->facebook->setAccessToken($session['authToken']);
 			$info = $this->facebook->api('/me');
 			$uid =$info['id'];
-				
+			
 			#$this->select_session($uid);
 
 			try {
@@ -303,13 +303,13 @@ class Facebookapi {
 		}
 
 		// put all the albums in an array with the aid as the key
-		$albums = $CI->fbgallery_model->getAlbums();
+		$albums = $this->fbgallery_model->fb_get_album();
 		if($albums) {
 			foreach($albums as $album) {
 				$wp_albums[$album['aid']] = $album;
 			}
 		}
-	
+
 		// go through all the facebook albums see which ones need to be added
 		foreach($fb_albums as $fb_album) {
 			$wp_album = isset($wp_albums[$fb_album['aid']]) ? $wp_albums[$fb_album['aid']] : false;
@@ -328,25 +328,25 @@ class Facebookapi {
 			
 			
 			// if it already exists, just update it with any updated info
-			if ($CI->fbgallery_model->getAlbums($fb_album['aid'])) {
+			if ($this->fbgallery_model->getAlbums($fb_album['aid'])) {
 				
 				// check to make sure the page exists and update the name of the page if needed
 				$album_data['page_id'] = 0;
 			
-				$CI->db->update($CI->db->dbprefix('fb_albums'), $album_data, array('aid' => $fb_album['aid']));
+				$this->db->update($this->db->dbprefix('fb_album'), $album_data, array('aid' => $fb_album['aid']));
 			}
 			// it doesn't exist so create it
 			else {
 				$album_data['aid'] = $fb_album['aid'];
-				$album_data['page_id'] = 0;
-				$album_data['hidden'] = 1;
-				$album_data['ordinal'] = 1;
-				$CI->db->insert($CI->db->dbprefix('fb_albums'), $album_data);
+				$album_data['page_id'] = fb_add_page($fb_album['name']);
+				$album_data['hidden'] = 0;
+				$album_data['ordinal'] = fb_get_next_ordinal();
+				$this->db->insert($this->db->dbprefix('fb_album'), $album_data);
 			}
 		}
 
 		// update the photos
-		$CI->db->query('DELETE FROM '.$CI->db->dbprefix('fb_photos'));
+		$this->db->query('DELETE FROM '.$this->db->dbprefix('fb_album'));
 		$ordinal = 1;
 		foreach($fb_photos as $photo) {
 			if($last_aid !== $photo['aid']) { // reset ordinal if we're on a new album now
@@ -364,8 +364,7 @@ class Facebookapi {
 				'created' => date('Y-m-d H:i:s', $photo['created']),
 				'ordinal' => $ordinal
 			);
-			if($photo['src']!= NULL)
-			$CI->db->insert($CI->db->dbprefix('fb_photos'), $album_data);
+			$this->db->insert($this->db->dbprefix('fb_photos'), $album_data);
 
 			// handle ordinal
 			$last_aid = $photo['aid'];
@@ -376,13 +375,13 @@ class Facebookapi {
 		foreach($fb_albums as $fb_album) {
 			$album_ids[] = $fb_album['aid'];
 		}
-		#fb_get_album();
-		$wp_albums = $CI->fbgallery_model->getAlbums();
+
+		$wp_albums = fb_get_album();
 	
 
 		// now reset the order if needed
 		if($reset_order) {
-			#fb_reset_album_order();
+			fb_reset_album_order();
 		}
 
 		if(!$this->msg) {
