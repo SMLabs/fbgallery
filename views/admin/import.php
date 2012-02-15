@@ -69,9 +69,9 @@ function saveTokenInDb(accessToken){
 
 </script>
 
-<section class="title"><h4>Import Facebook Galleries</h4><h4>:&nbsp;&nbsp;<?php if($facebook){?><img src="https://graph.facebook.com/<?php echo $facebook->getUser() ?>/picture" width="30" align="absmiddle"  /> <?php echo $fb_user_profile['name'] ?><?php }?></h4></section>
+<section class="title"><h4>Import Facebook Galleries</h4><h4>:&nbsp;&nbsp;<?php if($facebook->getUser()){?><img src="https://graph.facebook.com/<?php echo $facebook->getUser() ?>/picture" width="30" align="absmiddle"  /> <?php echo $fb_user_profile['name'] ?><?php }?></h4></section>
 <section class="item">
-<?php if($facebook){?>
+<?php if($facebook->getUser()){?>
 	<table>
 	    <tr>
 	        <th>Album Name</th>
