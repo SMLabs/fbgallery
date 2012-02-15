@@ -24,24 +24,40 @@ class Module_FbGallery extends Module {
 				'lt' => 'Facebook Gallery'
 			),
 			'description' => array(
-				'sl' => 'Manage your gallary.',
-				'en' => 'Manage your gallary.',
-				'de' => 'Manage your gallary.',
-				'nl' => 'Manage your gallary.',
-				'fr' => 'Manage your gallary.',
-				'zh' => 'Manage your gallary.',
-				'it' => 'Manage your gallary.',
-				'ru' => 'Manage your gallary.',
-				'ar' => 'Manage your gallary.',
-				'pt' => 'Manage your gallary.',
-			    'cs' => 'Manage your gallary.',
-				'es' => 'Manage your gallary.',
-				'fi' => 'Manage your gallary.',
+				'sl' => 'Manage your gallery.',
+				'en' => 'Manage your gallery.',
+				'de' => 'Manage your gallery.',
+				'nl' => 'Manage your gallery.',
+				'fr' => 'Manage your gallery.',
+				'zh' => 'Manage your gallery.',
+				'it' => 'Manage your gallery.',
+				'ru' => 'Manage your gallery.',
+				'ar' => 'Manage your gallery.',
+				'pt' => 'Manage your gallery.',
+			    'cs' => 'Manage your gallery.',
+				'es' => 'Manage your gallery.',
+				'fi' => 'Manage your gallery.',
 				'lt' => 'The Split Test is a module for Test the variation.'
 			),
+			
+			'sections' => array(
+			    'fbgallery' => array(
+				    'name' => 'fbgallery_admin_section_title',
+				    'uri' => 'admin/fbgallery',
+				    'shortcuts' => array(
+						array(
+							'name' => 'fbgallery_admin_shortcut_import',
+							'uri' => 'admin/fbgallery/import',
+							'class' => ''
+						)
+					),
+				)
+		    ),
+						
 			'frontend' => TRUE,
 			'backend' => TRUE,
 			'menu' => 'content'
+			
 		);
 	}
 

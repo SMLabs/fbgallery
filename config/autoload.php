@@ -4,4 +4,4 @@ $autoload['model'] = array('fbgallery_model');
 
 $autoload['libraries'] = array('encrypt');
 
-$autoload['helper'] = array('ws_encrypt','ws_dateformat','ws_html','options');
+$autoload['helper'] = array('ws_encrypt','ws_dateformat','ws_html','facebook');
