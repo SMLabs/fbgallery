@@ -118,4 +118,39 @@ class fbgallery_model extends CI_Model {
 	}
 
 
+	function getSettings($option_name){
+		$this->db->select('option_value');
+		$this->db->from('fb_options');
+		$this->db->where('option_name', $option_name);
+		$query = $this->db->get();
+		
+		$result = $query->result();	
+		if($query->num_rows() > 0){
+			return $result[0]->option_value;
+		}else{
+			return '';
+		}
+		
+	}
+	
+	function saveSettings($option_name, $option_value){
+		
+		
+		$this->db->select('option_value');
+		$this->db->from('fb_options');
+		$this->db->where('option_name', $option_name);
+		$query = $this->db->get();
+		$result = $query->result();		
+
+		$this->db->set('option_name', $option_name ); 
+		$this->db->set('option_value', $option_value );
+		
+		if($query->num_rows() > 0){
+			$this->db->update('fb_options'); 
+		}else{
+			$this->db->insert('fb_options'); 
+		}
+		
+		return true;	
+	}	
 }

@@ -46,8 +46,18 @@ class Module_FbGallery extends Module {
 				    'uri' => 'admin/fbgallery',
 				    'shortcuts' => array(
 						array(
+							'name' => 'fbgallery_admin_shortcut_settings',
+							'uri' => 'admin/fbgallery/settings',
+							'class' => ''
+						),
+						array(
 							'name' => 'fbgallery_admin_shortcut_import',
 							'uri' => 'admin/fbgallery/import',
+							'class' => ''
+						),
+						array(
+							'name' => 'fbgallery_admin_shortcut_import_fanpage',
+							'uri' => 'admin/fbgallery/import_fanpage',
 							'class' => ''
 						)
 					),
