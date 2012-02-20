@@ -57,12 +57,11 @@ class fbgallery_model extends CI_Model {
 		
 		return $query->result();
 	}
-	
-	function getPhotosByAlbum($aid){
 
+	function getPhotosByAlbum($aid){
 		$this->db->select('*');
-		$this->db->from('fb_albums');
-		$this->db->where('id',$aid);
+		$this->db->from('fb_photos');
+		$this->db->where('aid',$aid);
 		$query = $this->db->get();
 		
 		return $query->result();

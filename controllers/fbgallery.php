@@ -22,7 +22,7 @@ class Fbgallery extends Public_Controller
 		}else{
 			$data['albums']= $this->fbgallery_model->getAlbums();
 		}
-		$this->template->build('galleries',$data);
+		$this->template->build('main',$data);
 		
 	}
 	
@@ -34,12 +34,13 @@ class Fbgallery extends Public_Controller
 	 */
 	public function photos($aid=0){
 		if($aid!=0){
-			$data['photos']= array();
-			$data['albums']= false;
+			$data['photos']= $this->fbgallery_model->getPhotosByAlbum($aid);
+			$data['album']= $this->fbgallery_model->getAlbums($aid);
 		}else{
-			$data['albums']= $this->fbgallery_model->getAlbums();
+			redirect(site_url($this->module));
 		}
-		$this->template->build('galleries',$data);
+		
+		$this->template->build('photos',$data);
 		
 	}	
 
