@@ -44,6 +44,8 @@ class Fbgallery extends Public_Controller
 		
 		$this->template
 		->append_metadata(css('fbgallery.css', $this->module ))
+		->append_metadata(css('prettyPhoto.css', $this->module ))
+		->append_metadata(js('jquery.prettyPhoto.js', $this->module ))		
 		->build('photos',$data);
 		
 	}	
