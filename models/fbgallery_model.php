@@ -46,12 +46,13 @@ class fbgallery_model extends CI_Model {
 	}
 
 	function getAlbums($aid = NULL){
-		if($album_id != NULL){
-			$this->db->where('id',$aid);
+		if($aid != NULL){
+			$this->db->where('fb_albums.id',$aid);
 		}
 		
-		$this->db->select('*');
+		$this->db->select('fb_albums.*,fb_photos.picture,fb_photos.source');
 		$this->db->from('fb_albums');
+		$this->db->join('fb_photos', 'fb_photos.id = fb_albums.cover_pid');
 		$query = $this->db->get();
 		
 		return $query->result();
