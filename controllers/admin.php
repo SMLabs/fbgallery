@@ -35,10 +35,15 @@ class Admin extends Admin_Controller {
 			$this->user_id = $user->id;	
 			$this->config->set_item('user_id', $this->user_id );
 		}
+		
+		//Get settings app settings from DB
+		$this->config->set_item('app_id', $this->fbgallery_model->getSettings('app_id') );
+		$this->config->set_item('app_secret', $this->fbgallery_model->getSettings('app_secret') );
+		
 		//Crate Facebook  Object
 		$this->facebook = new Facebook(array(
-		  'appId'  => $this->config->item('APP_ID'),
-		  'secret' => $this->config->item('SECRET_ID'),
+		  'appId'  => $this->config->item('app_id'),
+		  'secret' => $this->config->item('app_secret'),
 		  'cookie' => true,
 		  'xfbml'  => true
 		));
