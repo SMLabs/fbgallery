@@ -1,0 +1,85 @@
+/**Gallery Css**/
+
+.gallery_right{
+    float: right;
+    overflow: hidden;
+    width: 700px;
+}
+.gallery_left{
+    float: left;
+    overflow: hidden;
+    padding-right: 20px;
+    width: 230px;
+}
+
+.gallery_left h3{
+	color: #86B2CF;
+	font-size: 17pt;
+	font-weight: 400;
+}
+.gallery_left li {
+	line-height:2.7;
+}
+.gallery_left li a{
+    color: #2970AE;
+    font-size: 12pt;
+    font-weight: 400;
+    padding: 5px 0 5px 22px;
+	background:url(../img/disable_bullet.jpg) no-repeat left center;
+	
+}
+.gallery_left li a:hover{
+	background:url(../img/enable_bullet.jpg)no-repeat left center;	
+}
+
+.gallery_right li{
+	float:left;
+	text-align:center;
+	margin:0 22px 22px 0; 
+	width:210px;
+	height:210px;
+	list-style:none;
+	position:relative;
+}
+.gallery_right li a{
+    color: #2970AE;
+    font-size: 12pt;
+    font-weight: 600;	
+	width:218px;
+	display:block;
+}
+.gallery_right li a .img_div{
+	display:none;
+}
+.gallery_right li a .img_div .search_img{
+	margin-top:50px;
+}
+.gallery_right li a:hover .img_div{
+    display: block;
+    float: left;
+    height: 150px;
+    left: 5px;
+    position: absolute;
+    top: 5px;
+    width: 211px;
+	background:url(../img/black-1px.png);
+}
+
+
+.gallery_right li .photo{
+border:5px solid #D9E9F0;
+width:210px;
+height:150px;
+}
+#gallery_full{
+	padding:0 10px;
+	width:960px;
+}
+#gallery_full li{
+	margin: 0 30px 30px 0;
+	width:210px;
+	height:152px;
+	list-style:none;
+	position:relative;
+}
+/**Gallery css end**/

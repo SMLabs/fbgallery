@@ -19,7 +19,7 @@
 <p> Many of our photo albums features pictures taken at our third party events. Where are fortunate to work with many generous groups in our fund rasing
   initiatives. To learn more about hosting third-party events, <a href="#">click here</a>. </p>
 <div id="gallery_main">
-  <div id="gallery_left">
+  <div class="gallery_left">
     <h3>Chose a Category</h3>
     <ul>
       <li><a href="<?php echo site_url($this->module) ?>">View All Galleries</a></li>
@@ -28,7 +28,7 @@
       <?php }?>
     </ul>
   </div>
-  <div id="gallery_right">
+  <div class="gallery_right">
     <ul>
       <?php foreach($albums as $album){?>
       <li> <a href="<?php echo site_url($this->module.'/photos/'.$album->id) ?>"> <img src="<?php echo $album->picture ?>" class="photo"  />

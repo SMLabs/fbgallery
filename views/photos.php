@@ -21,7 +21,7 @@
 
 
 <div id="gallery_main">
-  <div id="gallery_full">
+  <div id="gallery_full" class="gallery_right">
     <ul>
       <?php foreach($photos as $photo){?>
       <li> <a href="<?php echo site_url($this->module.'/photos/'.$photo->aid.'/'.$photo->id) ?>"> <img src="<?php echo $photo->picture ?>" class="photo"  />

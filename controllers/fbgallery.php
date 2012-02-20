@@ -22,7 +22,9 @@ class Fbgallery extends Public_Controller
 		}else{
 			$data['albums']= $this->fbgallery_model->getAlbums();
 		}
-		$this->template->build('main',$data);
+		$this->template
+		->append_metadata(css('fbgallery.css', $this->module ))
+		->build('main',$data);
 		
 	}
 	
@@ -40,7 +42,9 @@ class Fbgallery extends Public_Controller
 			redirect(site_url($this->module));
 		}
 		
-		$this->template->build('photos',$data);
+		$this->template
+		->append_metadata(css('fbgallery.css', $this->module ))
+		->build('photos',$data);
 		
 	}	
 
