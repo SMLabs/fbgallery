@@ -26,3 +26,16 @@
 	background-repeat: no-repeat;
 	background-position:center;
 }
+
+/** Connect **/
+
+.fbconnect{
+	width:100%;
+	height:300px;
+}
+
+.fbconnect td{
+	vertical-align: middle;
+	text-align: center;
+	border-bottom:none;
+}

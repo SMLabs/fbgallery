@@ -3,12 +3,12 @@
 	<table>
 	    <tr>
 	        <th>Album Name</th>
-	        <th>Import</th>
+	        <th>&nbsp;&nbsp;</th>
 	    </tr>
 		<?php foreach($albums['data'] as $v){ ?>
 	    <tr>
-	        <td><?=$v['name'] ?></td>
-	        <td><form id="frm_<?=$v['id'] ?>" action="<?=site_url('admin/'.$this->module.'/import') ?>" method="post" ><a href="javascript: void(0);" onclick="$('#frm_<?=$v['id'] ?>').submit();">Import</a><input type="hidden" value="<?=$v['id'] ?>" name="aid" /></form></td>
+	        <td class=""><?=$v['name'] ?></td>
+	        <td class="actions collapse"><form id="frm_<?=$v['id'] ?>" action="<?=site_url('admin/'.$this->module.'/import') ?>" method="post" ><button type="submit" name="btnAction" value="save" class="btn green">Import</button><input type="hidden" value="<?=$v['id'] ?>" name="aid" /></form></td>
 	    </tr>        
         <?php }?>        
      </table>

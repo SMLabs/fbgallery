@@ -7,11 +7,7 @@ class Fbgallery extends Public_Controller
 	{
 		parent::__construct();
 		
-		$this->template
-		->append_metadata(css('fbgallery.css', $this->module ));
-		
-		($facebook->getUser() && $this->url->segments('2')!='connect') ? redirect(site_url('admin/'.$this->module.'/connect')) : null;
-		
+		$this->template->append_metadata(css('fbgallery.css', $this->module ));
 	}
 	
 	/**
@@ -51,10 +47,6 @@ class Fbgallery extends Public_Controller
 			->append_metadata(js('init.js', $this->module ))
 			->build('photos',$data);
 		
-	}
-	
-	public function connect(){
-		$this->template->build('connect');
 	}
 
 }
