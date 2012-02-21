@@ -28,7 +28,7 @@ class fbgallery_model extends CI_Model {
 		$this->db->set('link', $album_info['link'] ); 
 		$this->db->set('created',$this->fb_date_time_to_db_format($album_info['created_time']) ); 
 		$this->db->set('modified', $this->fb_date_time_to_db_format($album_info['updated_time']) );
-		$this->db->insert('fb_albums'); 
+		$this->db->insert('fbgallery_albums'); 
 
 		foreach($photos_info as $photo){
 			$this->db->set('id', $photo['id'] ); 
@@ -39,7 +39,7 @@ class fbgallery_model extends CI_Model {
 			$this->db->set('link', $photo['link'] ); 
 			$this->db->set('created',$this->fb_date_time_to_db_format($photo['created_time'])  ); 
 			$this->db->set('modified',$this->fb_date_time_to_db_format($photo['updated_time'])  ); 
-			$this->db->insert('fb_photos'); 
+			$this->db->insert('fbgallery_photos'); 
 		}
 		
 		return true;		
@@ -47,12 +47,12 @@ class fbgallery_model extends CI_Model {
 
 	function getAlbums($aid = NULL){
 		if($aid != NULL){
-			$this->db->where('fb_albums.id',$aid);
+			$this->db->where('fbgallery_albums.id',$aid);
 		}
 		
-		$this->db->select('fb_albums.*,fb_photos.picture,fb_photos.source');
-		$this->db->from('fb_albums');
-		$this->db->join('fb_photos', 'fb_photos.id = fb_albums.cover_pid');
+		$this->db->select('fbgallery_albums.*,fbgallery_photos.picture,fbgallery_photos.source');
+		$this->db->from('fbgallery_albums');
+		$this->db->join('fbgallery_photos', 'fbgallery_photos.id = fbgallery_albums.cover_pid');
 		$query = $this->db->get();
 		
 		return $query->result();
@@ -60,7 +60,7 @@ class fbgallery_model extends CI_Model {
 
 	function getPhotosByAlbum($aid){
 		$this->db->select('*');
-		$this->db->from('fb_photos');
+		$this->db->from('fbgallery_photos');
 		$this->db->where('aid',$aid);
 		$query = $this->db->get();
 		
@@ -70,7 +70,7 @@ class fbgallery_model extends CI_Model {
 	function getAllPhotosAndAlbums(){
 
 		$this->db->select('*');
-		$this->db->from('fb_albums');
+		$this->db->from('fbgallery_albums');
 		$this->db->where('active',1);
 		$query = $this->db->get();
 		
@@ -79,7 +79,7 @@ class fbgallery_model extends CI_Model {
 		foreach($fb_albums as $album){
 
 			$this->db->select('*');
-			$this->db->from('fb_photos');
+			$this->db->from('fbgallery_photos');
 			$this->db->where('aid', $album->id);
 			$query = $this->db->get();
 			
@@ -102,17 +102,17 @@ class fbgallery_model extends CI_Model {
 	function deleteAlbum( $aid )
 	{
 		$this->db->where('aid', $aid );
-		$this->db->delete("fb_photos");
+		$this->db->delete("fbgallery_photos");
 
 		$this->db->where('id', $aid );
-		$this->db->delete("fb_albums");		
+		$this->db->delete("fbgallery_albums");		
 		return true;
 	}
 
 	function deletePhoto( $pid )
 	{
 		$this->db->where('id', $pid );
-		$this->db->delete("fb_photos");
+		$this->db->delete("fbgallery_photos");
 		
 		return true;
 	}
@@ -120,7 +120,7 @@ class fbgallery_model extends CI_Model {
 
 	function getSettings($option_name){
 		$this->db->select('option_value');
-		$this->db->from('fb_options');
+		$this->db->from('fbgallery_options');
 		$this->db->where('option_name', $option_name);
 		$query = $this->db->get();
 		
@@ -137,7 +137,7 @@ class fbgallery_model extends CI_Model {
 		
 		
 		$this->db->select('option_name');
-		$this->db->from('fb_options');
+		$this->db->from('fbgallery_options');
 		$this->db->where('option_name', $option_name);
 		$query = $this->db->get();
 		
@@ -146,9 +146,9 @@ class fbgallery_model extends CI_Model {
 			
 		if($query->num_rows() > 0){
 			$this->db->where('option_name', $option_name);
-			$this->db->update('fb_options'); 
+			$this->db->update('fbgallery_options'); 
 		}else{
-			$this->db->insert('fb_options'); 
+			$this->db->insert('fbgallery_options'); 
 		}
 		
 		return true;	

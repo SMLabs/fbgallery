@@ -73,10 +73,10 @@ class Module_FbGallery extends Module {
 
 	public function install()
 	{
-		$this->dbforge->drop_table('fb_albums');
+		$this->dbforge->drop_table('fbgallery_albums');
 					
 		$dch_album_fbgallery = "
-			CREATE TABLE ".$this->db->dbprefix('fb_albums')." (
+			CREATE TABLE ".$this->db->dbprefix('fbgallery_albums')." (
 			  `id` bigint(20) DEFAULT NULL,
 			  `cover_pid` bigint(20) DEFAULT NULL,
 			  `owner` bigint(20) unsigned DEFAULT NULL,
@@ -89,10 +89,10 @@ class Module_FbGallery extends Module {
 		";					
 							
 
-		$this->dbforge->drop_table('fb_photos');
+		$this->dbforge->drop_table('fbgallery_photos');
 		
 		$dch_photos_fbgallery = "
-			CREATE TABLE ".$this->db->dbprefix('fb_photos')." (
+			CREATE TABLE ".$this->db->dbprefix('fbgallery_photos')." (
 			  `id` bigint(20) DEFAULT NULL,
 			  `aid` bigint(20) DEFAULT NULL,
 			  `picture` text NOT NULL,
@@ -105,9 +105,9 @@ class Module_FbGallery extends Module {
 			) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 		";			
 		
-		$this->dbforge->drop_table('fb_options');
+		$this->dbforge->drop_table('fbgallery_options');
 		$dch_options_fbgallery = "
-		CREATE TABLE ".$this->db->dbprefix('fb_options')." (
+		CREATE TABLE ".$this->db->dbprefix('fbgallery_options')." (
 		  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
 		  `option_name` varchar(64) NOT NULL DEFAULT '',
 		  `option_value` text NOT NULL,
@@ -124,15 +124,15 @@ class Module_FbGallery extends Module {
 	public function uninstall()
 	{
 	
-		if($this->dbforge->drop_table($this->db->dbprefix('fb_photos')))
+		if($this->dbforge->drop_table($this->db->dbprefix('fbgallery_photos')))
 		{
 			return TRUE;
 		}
-		if($this->dbforge->drop_table($this->db->dbprefix('fb_albums')))
+		if($this->dbforge->drop_table($this->db->dbprefix('fbgallery_albums')))
 		{
 			return TRUE;
 		}
-		if($this->dbforge->drop_table($this->db->dbprefix('fb_options')))
+		if($this->dbforge->drop_table($this->db->dbprefix('fbgallery_options')))
 		{
 			return TRUE;
 		}		
