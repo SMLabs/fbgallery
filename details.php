@@ -105,7 +105,17 @@ class Module_FbGallery extends Module {
 			) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 		";			
 		
-		if($this->db->query($dch_album_fbgallery) && $this->db->query($dch_photos_fbgallery)  )
+		$this->dbforge->drop_table('fb_options');
+		$dch_options_fbgallery = "
+		CREATE TABLE ".$this->db->dbprefix('fb_options')." (
+		  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+		  `option_name` varchar(64) NOT NULL DEFAULT '',
+		  `option_value` text NOT NULL,
+		  PRIMARY KEY (`id`)
+		) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+		";
+		
+		if($this->db->query($dch_album_fbgallery) && $this->db->query($dch_photos_fbgallery) && $this->db->query($dch_options_fbgallery)  )
 		{
 			return TRUE;
 		}
@@ -122,6 +132,10 @@ class Module_FbGallery extends Module {
 		{
 			return TRUE;
 		}
+		if($this->dbforge->drop_table($this->db->dbprefix('fb_options')))
+		{
+			return TRUE;
+		}		
 	}
 
 
