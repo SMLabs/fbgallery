@@ -1,0 +1,28 @@
+.fbgal-heading h3{overflow:hidden;}
+.fbgal-heading .btn{float:right;}
+
+/** photos **/
+.fbgal-photo{
+	float: left;
+	width: 110px;
+	overflow: hidden;
+	margin: 5px 5px;
+}
+
+.fbgal-photo-pad{
+	padding:5px;
+}
+
+.fbgal-photo-operations{
+	text-align:right;
+	padding-top:3px;
+}
+
+.fbgal-photo-img{
+	background-color:#000;
+	text-align:center;
+	height:100px;
+	width:100px;
+	background-repeat: no-repeat;
+	background-position:center;
+}

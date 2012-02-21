@@ -37,7 +37,7 @@
     
 <?php }else{?>
 <div>
-	Please connect with facebook first:	<a href="#" onclick="loginUser('<?php echo site_url('admin/'.$this->module.'/import_fanpage') ?>'); return false;"><img src="<?php echo ADDONPATH."modules/".$this->module ?>/img/fbconnect.jpg" alt="Facebook Login"  width="100" /> </a>
-</div>   
+	Please connect with facebook first:	<a href="#" onclick="loginUser('<?php echo site_url('admin/'.$this->module.'/import_fanpage') ?>'); return false;"><img src="<?=image_url('fbconnect.jpg','fbgallery')?>" alt="Facebook Login"  width="100" /> </a>
+</div>
 <?php }?>
 </section>

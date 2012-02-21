@@ -49,8 +49,10 @@ class Admin extends Admin_Controller {
 		));
 
 		//$user = null;
-		//$user = $this->facebook->getUser();		
+		//$user = $this->facebook->getUser();
 		
+		$this->template
+		->append_metadata(css('admin.css', $this->module ));
 	}
 	
 	
@@ -58,8 +60,12 @@ class Admin extends Admin_Controller {
 		
 		if($this->user_id != ""  ) {
 			$data['photos_albums']= $this->fbgallery_model->getAllPhotosAndAlbums();
+						
 			$this->template
-			->build('admin/main',$data);			
+				->append_metadata(css('prettyPhoto.css', $this->module ))
+				->append_metadata(js('jquery.prettyPhoto.js', $this->module ))
+				->append_metadata(js('init.js', $this->module ))
+				->build('admin/main',$data);
 
 		}else {
 			$this->template->build('admin/access_failed');
@@ -78,8 +84,7 @@ class Admin extends Admin_Controller {
 			$data['app_id']= $this->fbgallery_model->getSettings('app_id');
 			$data['app_secret']= $this->fbgallery_model->getSettings('app_secret');			
 			
-			$this->template
-			->build('admin/settings',$data);			
+			$this->template->build('admin/settings',$data);			
 
 		}else {
 			$this->template->build('admin/access_failed');

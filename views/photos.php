@@ -1,8 +1,3 @@
-<script type="text/javascript" charset="utf-8">
-$(document).ready(function(){
-$("a[rel^='prettyPhoto']").prettyPhoto({animation_speed:'fast',slideshow:10000, hideflash: true});
-});
-</script>
 <!-- theme header -->
 <div class="pt_banner">
 	<h3 class="pt_heading">Events <strong>Gallery</strong></h3>
@@ -20,18 +15,19 @@ $("a[rel^='prettyPhoto']").prettyPhoto({animation_speed:'fast',slideshow:10000, 
 	</div>
 </div>
 <!-- theme header -->
-<h1>
-	<strong><?php echo $album[0]->name ?></strong>
-</h1>
+<h1><strong><?php echo $album[0]->name ?></strong></h1>
 
 
 <div id="gallery_main">
   <div id="gallery_full" class="gallery_right">
     <ul>
       <?php foreach($photos as $photo){?>
-      <li> <a href="<?php echo $photo->source ?>" rel="prettyPhoto[gallery]"> <img src="<?php echo $photo->picture ?>" class="photo"  />
-        <div class="img_div"> <img src="<?php echo ADDONPATH."modules/".$this->module ?>/img/zoom.png" class="search_img" /> </div>
-        </a> </li>
+		<li> 
+			<a href="<?php echo $photo->source ?>" rel="prettyPhoto[gallery]">
+				<img src="<?php echo $photo->picture ?>" class="photo" />
+				<span class="img_div"> <img src="<?=image_url('zoom.png',$this->module) ?>" class="search_img" /> </span>
+			</a>
+		</li>
       <?php }?>
     </ul>
   </div>
