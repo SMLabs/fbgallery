@@ -47,10 +47,13 @@ class Admin extends Admin_Controller {
 		  'cookie' => true,
 		  'xfbml'  => true
 		));
-
-		//$user = null;
-		//$user = $this->facebook->getUser();		
 		
+		// are we ready to Rock?
+		if(($this->config->item('app_id') == '' || $this->config->item('app_secret') == '') && $this->uri->segment('3') != 'settings')
+			redirect(site_url('admin/'.$this->module.'/settings'));
+		
+		$this->template
+			->append_metadata(css('admin.css', $this->module ));
 	}
 	
 	
@@ -58,8 +61,12 @@ class Admin extends Admin_Controller {
 		
 		if($this->user_id != ""  ) {
 			$data['photos_albums']= $this->fbgallery_model->getAllPhotosAndAlbums();
+						
 			$this->template
-			->build('admin/main',$data);			
+				->append_metadata(css('prettyPhoto.css', $this->module ))
+				->append_metadata(js('jquery.prettyPhoto.js', $this->module ))
+				->append_metadata(js('init.js', $this->module ))
+				->build('admin/main',$data);
 
 		}else {
 			$this->template->build('admin/access_failed');
@@ -74,12 +81,13 @@ class Admin extends Admin_Controller {
 				$this->fbgallery_model->saveSettings('app_secret',$_POST['app_secret']);
 				redirect(site_url('admin/' . $this->module));
 			}
-
+			
+			$data['facebook'] = $this->facebook;
+			$data['fb_user_profile'] = $this->facebook->api('/me');
 			$data['app_id']= $this->fbgallery_model->getSettings('app_id');
 			$data['app_secret']= $this->fbgallery_model->getSettings('app_secret');			
 			
-			$this->template
-			->build('admin/settings',$data);			
+			$this->template->build('admin/settings',$data);			
 
 		}else {
 			$this->template->build('admin/access_failed');
@@ -88,7 +96,10 @@ class Admin extends Admin_Controller {
 	
 	function import(){
 		
-		if($this->user_id != ""  ) {
+		// Connect
+		if(!$this->facebook->getUser())redirect(site_url('admin/'.$this->module.'/connect'));
+		
+		if($this->user_id != "") {
 			try {
 				if($_SERVER['REQUEST_METHOD']=='POST'){
 					$album_info = $this->facebook->api($_POST['aid']);
@@ -135,6 +146,10 @@ class Admin extends Admin_Controller {
 	
 
 	function import_fanpage($pageid=0){
+	
+		// Connect
+		if(!$this->facebook->getUser())redirect(site_url('admin/'.$this->module.'/connect'));
+		
 		if($this->user_id != ""  ) {
 			try {
 				if($_SERVER['REQUEST_METHOD']=='POST'){
@@ -162,11 +177,15 @@ class Admin extends Admin_Controller {
 			}
 		
 			$this->template
-			->build('admin/import_fanpage',$data);			
+				->build('admin/import_fanpage',$data);			
 
 		}else {
 			$this->template->build('admin/access_failed');
 		}		
+	}
+	
+	function connect(){
+		$this->template->build('admin/connect');
 	}
 
 }

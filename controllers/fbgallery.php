@@ -7,6 +7,7 @@ class Fbgallery extends Public_Controller
 	{
 		parent::__construct();
 		
+		$this->template->append_metadata(css('fbgallery.css', $this->module ));
 	}
 	
 	/**
@@ -23,9 +24,7 @@ class Fbgallery extends Public_Controller
 			$data['albums']= $this->fbgallery_model->getAlbums();
 		}
 		$this->template
-		->append_metadata(css('fbgallery.css', $this->module ))
 		->build('main',$data);
-		
 	}
 	
 	/**
@@ -47,11 +46,11 @@ class Fbgallery extends Public_Controller
 		
 
 		$this->template
-		->append_metadata(css('fbgallery.css', $this->module ))
-		->append_metadata(css('prettyPhoto.css', $this->module ))
-		->append_metadata(js('jquery.prettyPhoto.js', $this->module ))		
-		->build('photos',$data);
+			->append_metadata(css('prettyPhoto.css', $this->module ))
+			->append_metadata(js('jquery.prettyPhoto.js', $this->module ))
+			->append_metadata(js('init.js', $this->module ))
+			->build('photos',$data);
 		
-	}	
+	}
 
 }

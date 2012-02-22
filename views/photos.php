@@ -14,44 +14,33 @@ $('.jaxnav-next').click(function(){
 });
 </script>
 
-
 <!-- theme header -->
+
 <div class="pt_banner">
-	<h3 class="pt_heading">Events <strong>Gallery</strong></h3>
-	<div class="speedbar">
-		<nav>
-			<ul>
-				<li><a href="<?=site_url()?>">Back to Homepage</a></li>
-			{{navigation:links group="events"}}
-                <li>l</li>
-				<li class="{{class}}"><a href="{{url}}">{{title}}</a></li>
-			{{/navigation:links}}
-			
-            </ul>
-		</nav>
-	</div>
+  <h3 class="pt_heading">Events <strong>Gallery</strong></h3>
+  <div class="speedbar">
+    <nav>
+      <ul>
+        <li><a href="<?=site_url()?>">Back to Homepage</a></li>
+        {{navigation:links group="events"}}
+        <li>l</li>
+        <li class="{{class}}"><a href="{{url}}">{{title}}</a></li>
+        {{/navigation:links}}
+      </ul>
+    </nav>
+  </div>
 </div>
 <!-- theme header -->
 <section>
-<div class="gallery">
-	<a href="<?php echo site_url('fbgallery') ?>" class="normal_btn fll"><span>View All Galleries</span></a>
-</div>
-    <div class="flr">
-        <div class="jaxnav-paging">
-            <a href="javascript:void(0)" class="normal_btn jaxnav-next"><span>Next Step</span></a>
-            <a href="javascript:void(0)" class="normal_btn jaxnav-prev"><span>Prev Step</span></a>
-        </div>    
-    </div>
-
+  <div class="gallery"> <a href="<?php echo site_url('fbgallery') ?>" class="normal_btn fll"><span>View All Galleries</span></a> </div>
+  <div class="flr">
+    <div class="jaxnav-paging"> <a href="javascript:void(0)" class="normal_btn jaxnav-next"><span>Next Step</span></a> <a href="javascript:void(0)" class="normal_btn jaxnav-prev"><span>Prev Step</span></a> </div>
+  </div>
 </section>
-                <div class="jaxnav-info">
-                    <div class="jaxnav-info-wrapper">loading...</div>
-                </div>
-
-<h1>
-	<strong><?php echo $album[0]->name ?></strong>
-</h1>
-
+<div class="jaxnav-info">
+  <div class="jaxnav-info-wrapper">loading...</div>
+</div>
+<h1> <strong><?php echo $album[0]->name ?></strong> </h1>
 <div id="gallery_main">
   <div id="gallery_full" class="gallery_right">
     <ul>
@@ -63,4 +52,3 @@ $('.jaxnav-next').click(function(){
     </ul>
   </div>
 </div>
-
