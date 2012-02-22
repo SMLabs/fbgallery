@@ -35,6 +35,9 @@ class Fbgallery extends Public_Controller
 	 * @return void
 	 */
 	public function photos($aid=0){
+		
+		$data['albums']= $this->fbgallery_model->getAlbums();
+		
 		if($aid!=0){
 			$data['photos']= $this->fbgallery_model->getPhotosByAlbum($aid);
 			$data['album']= $this->fbgallery_model->getAlbums($aid);
@@ -42,6 +45,7 @@ class Fbgallery extends Public_Controller
 			redirect(site_url($this->module));
 		}
 		
+
 		$this->template
 		->append_metadata(css('fbgallery.css', $this->module ))
 		->append_metadata(css('prettyPhoto.css', $this->module ))

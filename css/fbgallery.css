@@ -1,4 +1,8 @@
 /**Gallery Css**/
+#gallery_main{
+    border-bottom: 1px solid #C5DCE5;
+    overflow: hidden;		
+}
 
 .gallery_right{
     float: right;
@@ -81,4 +85,38 @@ height:150px;
 	list-style:none;
 	position:relative;
 }
-/**Gallery css end**/
+.gallery_bottom {
+    padding: 30px 0;
+}
+.gallery .normal_btn span {
+    background-image: url("../img/bullet_back.png");
+    padding: 15px 25px 15px 40px;
+}
+.gallery .normal_btn:hover span {
+    background-image: url("../img/bullet_back.png");
+    padding: 15px 25px 15px 40px;
+}
+.flr{float:right;}
+.fll{float:left;}
+
+.jaxnav-paging {
+    background: none;
+	padding:0;
+	margin:0;
+}
+.jaxnav-paging a {
+    float: right;
+}
+.jaxnav-paging a:link span {
+    background: url("../img/arrows.png") no-repeat scroll 15px 20px #FFFFFF;
+    color: #7CACC8;
+    font-weight: 400;
+    padding: 15px 30px;
+}
+.jaxnav-paging a.jaxnav-prev {
+    margin-right: 10px;
+}
+.jaxnav-paging a.jaxnav-next span {
+    padding-right: 30px;
+	background-position:101px -29px;
+}

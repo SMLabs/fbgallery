@@ -38,3 +38,6 @@
     </ul>
   </div>
 </div>
+<div class="gallery_bottom gallery">
+	<a href="<?php echo site_url('event') ?>" class="normal_btn flr"><span>Return to Upcoming Events</span></a>
+</div>
