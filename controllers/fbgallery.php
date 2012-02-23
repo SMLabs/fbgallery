@@ -43,7 +43,7 @@ class Fbgallery extends Public_Controller
 			$limit = 5;
 			$offset = ($page-1) * $limit;
 			$pages = ceil($photos_count/$limit);
-			$pagination = $this->links($this->module . "/photos/" . $aid . "/",$page,$pages);
+			$pagination = $this->links( $this->module . "/photos/" . $aid . "/",$page,$pages);
 			
 			$data['pagination'] = $pagination;
 			

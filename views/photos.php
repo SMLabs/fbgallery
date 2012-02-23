@@ -42,7 +42,7 @@ $('.jaxnav-next').click(function(){
   <div id="gallery_full" class="gallery_right">
     <ul>
       <?php foreach($photos as $photo){?>
-      <li> <a href="<?php echo $photo->source ?>" rel="prettyPhoto[gallery]"> <img src="<?php echo $photo->picture ?>" class="photo"  />
+      <li> <a href="<?php echo $photo->source ?>" rel="prettyPhoto[gallery]"> <img src="<?php echo ADDONPATH."modules/".$this->module ?>/images/phpThumb/phpThumb.php?src=<?php echo $photo->source ?>&w=210&zc=1" class="photo"  />
         <div class="img_div"> <img src="<?php echo ADDONPATH."modules/".$this->module ?>/img/zoom.png" class="search_img" /> </div>
         </a> </li>
       <?php }?>
