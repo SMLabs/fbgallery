@@ -34,12 +34,9 @@ $('.jaxnav-next').click(function(){
 <section>
   <div class="gallery"> <a href="<?php echo site_url('fbgallery') ?>" class="normal_btn fll"><span>View All Galleries</span></a> </div>
   <div class="flr">
-    <div class="jaxnav-paging"> <a href="javascript:void(0)" class="normal_btn jaxnav-next"><span>Next Step</span></a> <a href="javascript:void(0)" class="normal_btn jaxnav-prev"><span>Prev Step</span></a> </div>
+    <div class="jaxnav-paging"> <?php echo $pagination; ?> </div>
   </div>
 </section>
-<div class="jaxnav-info">
-  <div class="jaxnav-info-wrapper">loading...</div>
-</div>
 <h1> <strong><?php echo $album[0]->name ?></strong> </h1>
 <div id="gallery_main">
   <div id="gallery_full" class="gallery_right">

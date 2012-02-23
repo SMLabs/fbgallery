@@ -33,12 +33,21 @@ class Fbgallery extends Public_Controller
 	 * @access public
 	 * @return void
 	 */
-	public function photos($aid=0){
+	public function photos(	$aid = 0, $page=1 )
+	{
 		
 		$data['albums']= $this->fbgallery_model->getAlbums();
 		
 		if($aid!=0){
-			$data['photos']= $this->fbgallery_model->getPhotosByAlbum($aid);
+			$photos_count = $this->fbgallery_model->countPhotosByAlbum($aid);
+			$limit = 5;
+			$offset = ($page-1) * $limit;
+			$pages = ceil($photos_count/$limit);
+			$pagination = $this->links($this->module . "/photos/" . $aid . "/",$page,$pages);
+			
+			$data['pagination'] = $pagination;
+			
+			$data['photos']= $this->fbgallery_model->getPhotosByAlbum($aid, $offset, $limit);
 			$data['album']= $this->fbgallery_model->getAlbums($aid);
 		}else{
 			redirect(site_url($this->module));
@@ -52,5 +61,31 @@ class Fbgallery extends Public_Controller
 			->build('photos',$data);
 		
 	}
+	
+    function links($url, $page=1,$pages)
+    {
+	  
+	  $plinks="";
+	  $slinks="";
+      
+      // If we have more then one pages
+      if (($pages) > 1)
+      {
+        // Assign the 'previous page' link into the array if we are not on the first page
+        if ($page != 1) {
+          $plinks = ' <a href="'.$url.($page - 1).'" class="normal_btn jaxnav-prev"><span>Prev Step</span></a> ';
+        }
 
+        // Assign the 'next page' if we are not on the last page
+        if ($page < $pages) {
+          $slinks = ' <a href="'.$url.($page + 1).'" class="normal_btn jaxnav-next"><span>Next Step</span></a> ';
+        }
+        
+        // Push the array into a string using any some glue
+        return   $slinks . '  ' . $plinks;
+      }
+      return '';
+    }	
+	
+	
 }
