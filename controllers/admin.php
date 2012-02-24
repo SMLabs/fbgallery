@@ -1,4 +1,5 @@
-﻿<?php
+<?php  if (!defined('BASEPATH')) exit('No direct script access allowed');
+
 class Admin extends Admin_Controller {
 
 	private $user_id = "";
@@ -77,23 +78,18 @@ class Admin extends Admin_Controller {
 	
 	function settings(){
 		
-		if($this->user_id != ""  ) {
-			if($_SERVER['REQUEST_METHOD']=='POST'){
-				$this->fbgallery_model->saveSettings('app_id',$_POST['app_id']);
-				$this->fbgallery_model->saveSettings('app_secret',$_POST['app_secret']);
-				redirect(site_url('admin/' . $this->module));
-			}
-			
-			$data['facebook'] = $this->facebook;
-			($this->facebook->getUser()) ? $data['fb_user_profile'] = $this->facebook->api('/me') : null;
-			$data['app_id']= $this->fbgallery_model->getSettings('app_id');
-			$data['app_secret']= $this->fbgallery_model->getSettings('app_secret');			
-			
-			$this->template->build('admin/settings',$data);			
-
-		}else {
-			$this->template->build('admin/access_failed');
+		if($_SERVER['REQUEST_METHOD']=='POST'){
+			$this->fbgallery_model->saveSettings('app_id',$_POST['app_id']);
+			$this->fbgallery_model->saveSettings('app_secret',$_POST['app_secret']);
+			redirect(site_url('admin/' . $this->module));
 		}
+		
+		$data['facebook'] = $this->facebook;
+		($this->facebook->getUser()) ? $data['fb_user_profile'] = $this->facebook->api('/me') : null;
+		$data['app_id']= $this->fbgallery_model->getSettings('app_id');
+		$data['app_secret']= $this->fbgallery_model->getSettings('app_secret');			
+		
+		$this->template->build('admin/settings',$data);
 	}	
 	
 	function import(){
@@ -115,7 +111,6 @@ class Admin extends Admin_Controller {
 			$data['albums'] = $this->facebook->api('me/albums');
 			
 			//print_r($data['albums']);exit;
-
 		} catch (FacebookApiException $e) {
 			$data['exception'] = $e;
 			$this->template
