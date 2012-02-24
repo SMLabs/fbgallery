@@ -1,3 +1,6 @@
+<?php
+	$addons = preg_match('/'.preg_quote(SHARED_ADDONPATH,'/').'/', preg_replace('/\\\\/','/',__dir__) ) ? SHARED_ADDONPATH : ADDONPATH;
+?>
 <script type="text/javascript" charset="utf-8">
 $(document).ready(function(){
 $("a[rel^='prettyPhoto']").prettyPhoto({animation_speed:'fast',slideshow:10000, hideflash: true});
@@ -42,8 +45,8 @@ $('.jaxnav-next').click(function(){
   <div id="gallery_full" class="gallery_right">
     <ul>
       <?php foreach($photos as $photo){?>
-      <li> <a href="<?php echo $photo->source ?>" rel="prettyPhoto[gallery]"> <img src="<?php echo ADDONPATH."modules/".$this->module ?>/images/phpThumb/phpThumb.php?src=<?php echo $photo->source ?>&w=210&zc=1" class="photo"  />
-        <div class="img_div"> <img src="<?php echo ADDONPATH."modules/".$this->module ?>/img/zoom.png" class="search_img" /> </div>
+      <li> <a href="<?php echo $photo->source ?>" rel="prettyPhoto[gallery]"> <img src="<?=$addons."modules/".$this->module ?>/images/phpThumb/phpThumb.php?src=<?php echo $photo->source ?>&w=210&zc=1" class="photo"  />
+        <div class="img_div"> <img src="<?php echo $addons."modules/".$this->module ?>/img/zoom.png" class="search_img" /> </div>
         </a> </li>
       <?php }?>
     </ul>
