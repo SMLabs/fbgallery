@@ -33,7 +33,7 @@
   <div class="gallery_right">
     <ul>
       <?php foreach($albums as $album){?>
-      <li> <a href="<?php echo site_url($this->module.'/photos/'.$album->id) ?>"> <img src="<?=$addons."modules/".$this->module ?>/images/phpThumb/phpThumb.php?src=<?php echo $album->source ?>&w=210&zc=1" class="photo"  />
+      <li> <a href="<?php echo site_url($this->module.'/photos/'.$album->id) ?>"> <img src="<?=$addons."modules/".$this->module ?>/images/photoResize/thumb.php?src=<?php echo $album->source ?>&w=210" class="photo"  />
         <div class="img_div"> <img src="<?php echo $addons."modules/".$this->module ?>/img/zoom.png" class="search_img" /> </div>
         <?php echo $album->name ?></a> </li>
       <?php }?>

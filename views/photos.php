@@ -45,7 +45,7 @@ $('.jaxnav-next').click(function(){
   <div id="gallery_full" class="gallery_right">
     <ul>
       <?php foreach($photos as $photo){?>
-      <li> <a href="<?php echo $photo->source ?>" rel="prettyPhoto[gallery]"> <img src="<?=$addons."modules/".$this->module ?>/images/phpThumb/phpThumb.php?src=<?php echo $photo->source ?>&w=210&zc=1" class="photo"  />
+      <li> <a href="<?php echo $photo->source ?>" rel="prettyPhoto[gallery]"> <img src="<?=$addons."modules/".$this->module ?>/images/photoResize/thumb.php?src=<?php echo $photo->source; ?>&w=210" class="photo"  />
         <div class="img_div"> <img src="<?php echo $addons."modules/".$this->module ?>/img/zoom.png" class="search_img" /> </div>
         </a> </li>
       <?php }?>
