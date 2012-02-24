@@ -1,111 +1,5 @@
 <?php
 
-    /*
-     *  Author:     Jarrod Oberto
-     *  File name:  Image Tools with BMP support 
-     *  Purpose:    Create images on the fly!
-     *  Requires:   
-     *	Version:    1.0
-     *  
-     *  Modificatoin history
-     *  Date      Initials  Ver	 Description
-     *  May 11	  JCO       1.0	 * First build 
-     *							
-     *
-     */
-
-//ini_set('display_errors',1);
-//error_reporting(E_ALL | E_STRICT);
-
-// *** Set some defaults
-$source = strtolower(getGETValue('src', ''));
-$width = getGETValue('w', 250);
-$height = getGETValue('h', 167);
-$option = getGETValue('type', 'crop');
-$sharpen = getGETValue('sharpen', false);
-$quality = getGETValue('q', 100);
-$actions = getGETValue('actions', '');
-
-// *** Define some paths/settings
-define('DOCUMENT_ROOT',	$_SERVER['DOCUMENT_ROOT']);
-define('CURRENT_PATH', dirname(__FILE__));
-define('CACHE_PATH', CURRENT_PATH . '/cache');
-define('USE_CACHE', true);
-define('AUTO_CONVERT', true);
-define('ALLOW_ACTIONS', true);
-
-// *** For security we limit the methods that are allowed to be called
-$allowedActionsArray = array('greyScale', 'blackAndWhite', 'sepia', 'negative',  
-					         'rotate', 'addWatermark', 'addText', 'addBorder', 
-					         'addReflection', 'roundCorners', 'addShadow',
-							 'addCaptionBox', 'greyScaleDramatic', 'vintage',
-							 'greyScaleEnhanced');
-	
-						
-// *** Get the filename
-$imageNameInfoArray = pathinfo($source); 
-$imageName = $imageNameInfoArray['filename'];
-$extension = $imageNameInfoArray['extension'];
-
-// *** Set image path 
-$imagePath = $source;					
-	
-// *** Make sure an image has been passed in and the image exists
-if ($source != '') {
-
-	$actionsArray = splitParams($actions);
-	
-	// *** get action codes for filenameHash
-	if (ALLOW_ACTIONS) {
-		$cacheCodes = getCacheCodes($actionsArray);
-	}
-		
-	// *** if using shadow or round corners save as png
-	if (AUTO_CONVERT && strstr($cacheCodes,'.10') ||  strstr($cacheCodes,'.9')) {
-		$extension = 'png';
-	}
-	
-	// *** Filename hash.
-	$filenameHash = md5($imageName . '-' . $width . 'x' . $height . $cacheCodes);
-	$filenameHashExt = $filenameHash . '.' . $extension;
-
-	// *** check cache
-	if (file_exists(CACHE_PATH . '/' .  $filenameHashExt) && USE_CACHE) {
-	
-		// *** Output image from cache
-		outputImage($filenameHash, $extension, CACHE_PATH);	
-	
-	} else {
-
-		include('image_lib_class.php');
-	
-		// *** Should already exist. If not, attempt to create
-		createCacheDir(CACHE_PATH);
-
-		// *** Open image
-		$imageLibObj = new imageLib($imagePath);
-
-		// *** Resize
-		$imageLibObj -> resizeImage($width, $height, $option, $sharpen);
-
-		if (ALLOW_ACTIONS) {
-			callActions($actionsArray, $imageLibObj, $allowedActionsArray);
-		}
-		
-		// *** Filename to save cached image
-		$saveAs = CACHE_PATH . '/' . $filenameHash . '.' . $extension;
-
-		// *** Save to cache
-		if (USE_CACHE) {
-			$imageLibObj -> saveImage($saveAs, $quality);
-		}
-			
-		// *** Output to browser
-		$imageLibObj -> displayImage($extension);
-	
-	}
-}
-
 ## --------------------------------------------------------
 
 function getGETValue($value, $defaultValue = '', $valueRequired=true)
@@ -146,12 +40,12 @@ function createCacheDir ($path, $permissions=0755)
 {
 	if(!file_exists($path)) {
 		@mkdir($path, $permissions);
-		@chmod($path, $permissions);			
+		@chmod($path, $permissions);
 	} else {
 		if (!is_writable($path)) {
 			echo 'Path <strong>' . $path . '</strong> directory is not writable.';
 			exit;
-		} 
+		}
 	}
 }
 
@@ -386,4 +280,5 @@ function file_exists_remote($path){
 //		else
 //			return false;
 //}
+
 ?>
