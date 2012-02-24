@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 class Admin extends Admin_Controller {
 
 	private $user_id = "";
@@ -113,11 +113,13 @@ class Admin extends Admin_Controller {
 			
 			$data['fb_user_profile'] = $this->facebook->api('/me');
 			$data['albums'] = $this->facebook->api('me/albums');
+			
+			//print_r($data['albums']);exit;
 
 		} catch (FacebookApiException $e) {
-			$data['fberror'] = $e;
-			$data['fb_user_profile'] = false;
-			$data['albums'] = false;
+			$data['exception'] = $e;
+			$this->template
+				->build('admin/facebookapiexception',$data);
 		}
 	
 		$this->template
