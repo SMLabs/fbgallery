@@ -34,6 +34,8 @@ class Admin extends Admin_Controller {
 		if(!empty($user)){
 			$this->user_id = $user->id;	
 			$this->config->set_item('user_id', $this->user_id );
+		}else{
+			$this->template->build('admin/access_failed');
 		}
 		
 		//Get settings app settings from DB
@@ -83,7 +85,7 @@ class Admin extends Admin_Controller {
 			}
 			
 			$data['facebook'] = $this->facebook;
-			$data['fb_user_profile'] = $this->facebook->api('/me');
+			($this->facebook->getUser()) ? $data['fb_user_profile'] = $this->facebook->api('/me') : null;
 			$data['app_id']= $this->fbgallery_model->getSettings('app_id');
 			$data['app_secret']= $this->fbgallery_model->getSettings('app_secret');			
 			
@@ -99,49 +101,38 @@ class Admin extends Admin_Controller {
 		// Connect
 		if(!$this->facebook->getUser())redirect(site_url('admin/'.$this->module.'/connect'));
 		
-		if($this->user_id != "") {
-			try {
-				if($_SERVER['REQUEST_METHOD']=='POST'){
-					$album_info = $this->facebook->api($_POST['aid']);
-					$photos_info = $this->facebook->api($_POST['aid'].'/photos');
-					$this->fbgallery_model->saveAlbum($album_info, $photos_info['data']);
-					redirect(site_url('admin/' . $this->module));
-				}
+		$data['facebook'] = $this->facebook;
 			
-				$data['facebook'] = $this->facebook;
-				if($this->facebook->getUser()){
-			
-					$data['fb_user_profile'] = $this->facebook->api('/me');
-					$data['albums'] = $this->facebook->api('me/albums');
-				}
-			} catch (FacebookApiException $e) {
-				$data['facebook'] = false;
-				$data['fb_user_profile'] = false;
-				$data['albums'] = false;
+		try {
+			if($_SERVER['REQUEST_METHOD']=='POST'){
+				$album_info = $this->facebook->api($_POST['aid']);
+				$photos_info = $this->facebook->api($_POST['aid'].'/photos');
+				$this->fbgallery_model->saveAlbum($album_info, $photos_info['data']);
+				redirect(site_url('admin/' . $this->module));
 			}
-		
-			$this->template
-			->build('admin/import',$data);			
+			
+			$data['fb_user_profile'] = $this->facebook->api('/me');
+			$data['albums'] = $this->facebook->api('me/albums');
 
-		}else {
-			$this->template->build('admin/access_failed');
+		} catch (FacebookApiException $e) {
+			$data['fberror'] = $e;
+			$data['fb_user_profile'] = false;
+			$data['albums'] = false;
 		}
+	
+		$this->template
+			->build('admin/import',$data);
+		
 	}
 
 	function delete( $action_on,$id ){
-		if( $this->user_id != "" ) {
-			if($action_on == 'album' && $id != ''){
-				$this->fbgallery_model->deleteAlbum($id);
-			}
+		if($action_on == 'album' && $id != '')
+			$this->fbgallery_model->deleteAlbum($id);
+		
+		if($action_on == 'photo' && $id != '')
+			$this->fbgallery_model->deletePhoto($id);
 			
-			if($action_on == 'photo' && $id != ''){
-
-				$this->fbgallery_model->deletePhoto($id);
-			}
-			redirect(site_url('admin/' . $this->module));
-		}else {
-			$this->template->build('admin/access_failed');
-		}
+		redirect(site_url('admin/' . $this->module));
 	}
 	
 
@@ -150,38 +141,33 @@ class Admin extends Admin_Controller {
 		// Connect
 		if(!$this->facebook->getUser())redirect(site_url('admin/'.$this->module.'/connect'));
 		
-		if($this->user_id != ""  ) {
-			try {
-				if($_SERVER['REQUEST_METHOD']=='POST'){
-					$album_info = $this->facebook->api($_POST['aid']);
-					$photos_info = $this->facebook->api($_POST['aid'].'/photos');
-					$this->fbgallery_model->saveAlbum($album_info, $photos_info['data']);
-					redirect(site_url('admin/' . $this->module));
-				}
-			
-				$data['facebook'] = $this->facebook;
-				if($this->facebook->getUser()){
-					$data['fb_user_profile'] = $this->facebook->api('/me');
-					if($pageid != 0){ 
-						$data['albums'] = $this->facebook->api($pageid.'/albums');					
-						
-					}else{
-						$data['accounts'] = $this->facebook->api('me/accounts');
-					}
-					
-				}
-			} catch (FacebookApiException $e) {
-				$data['facebook'] = false;
-				$data['fb_user_profile'] = false;
-				$data['albums'] = false;
+		try {
+			if($_SERVER['REQUEST_METHOD']=='POST'){
+				$album_info = $this->facebook->api($_POST['aid']);
+				$photos_info = $this->facebook->api($_POST['aid'].'/photos');
+				$this->fbgallery_model->saveAlbum($album_info, $photos_info['data']);
+				redirect(site_url('admin/' . $this->module));
 			}
 		
-			$this->template
-				->build('admin/import_fanpage',$data);			
-
-		}else {
-			$this->template->build('admin/access_failed');
-		}		
+			$data['facebook'] = $this->facebook;
+			if($this->facebook->getUser()){
+				$data['fb_user_profile'] = $this->facebook->api('/me');
+				if($pageid != 0){ 
+					$data['albums'] = $this->facebook->api($pageid.'/albums');					
+					
+				}else{
+					$data['accounts'] = $this->facebook->api('me/accounts');
+				}
+				
+			}
+		} catch (FacebookApiException $e) {
+			$data['facebook'] = false;
+			$data['fb_user_profile'] = false;
+			$data['albums'] = false;
+		}
+	
+		$this->template
+			->build('admin/import_fanpage',$data);
 	}
 	
 	function connect(){
