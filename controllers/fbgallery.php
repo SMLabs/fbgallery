@@ -21,7 +21,7 @@ class Fbgallery extends Public_Controller
 			$data['photos']= array();
 			$data['albums']= false;
 		}else{
-			$data['albums']= $this->fbgallery_model->getAlbums();
+			$data['albums']= $this->fbgallery_model->get_albums();
 		}
 		$this->template
 		->build('main',$data);
@@ -33,22 +33,23 @@ class Fbgallery extends Public_Controller
 	 * @access public
 	 * @return void
 	 */
-	public function photos(	$aid = 0, $page=1 )
+	public function photos(	$aid = null)
 	{
 		
-		$data['albums']= $this->fbgallery_model->getAlbums();
+		$data['albums']= $this->fbgallery_model->get_albums();
 		
-		if($aid!=0){
+		if($aid!=null){
+		
+			$data['photos']= (array)$this->fbgallery_model->get_album_photos($aid,1);
+			$data['album']= $this->fbgallery_model->get_album($aid);
+					
 			$photos_count = $this->fbgallery_model->countPhotosByAlbum($aid);
-			$limit = 5;
-			$offset = ($page-1) * $limit;
-			$pages = ceil($photos_count/$limit);
-			$pagination = $this->links( $this->module . "/photos/" . $aid . "/",$page,$pages);
 			
-			$data['pagination'] = $pagination;
+			$data['pagination'] = $this->load->view( 'fbgallery/album_nav',array(
+				'next' => $this->fbgallery_model->get_album_by_index($data['album']->index+1),
+				'prev' => $this->fbgallery_model->get_album_by_index($data['album']->index-1)
+			),true);
 			
-			$data['photos']= $this->fbgallery_model->getPhotosByAlbum($aid, $offset, $limit);
-			$data['album']= $this->fbgallery_model->getAlbums($aid);
 		}else{
 			redirect(site_url($this->module));
 		}
@@ -92,9 +93,9 @@ class Fbgallery extends Public_Controller
 		$this->load->helper($this->module.'/thumb');
 		
 		// *** Set some defaults
-		$source = strtolower(getGETValue('src', ''));
-		$width = getGETValue('w', 250);
-		$height = getGETValue('h', 167);
+		$source = strtolower(urldecode(getGETValue('src', '')));
+		$width = getGETValue('width', 250);
+		$height = getGETValue('height', 167);
 		$option = getGETValue('type', 'crop');
 		$sharpen = getGETValue('sharpen', false);
 		$quality = getGETValue('q', 100);

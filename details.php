@@ -25,7 +25,7 @@ class Module_FbGallery extends Module {
 			),
 			'description' => array(
 				'sl' => 'Manage your gallery.',
-				'en' => 'Manage your gallery.',
+				'en' => 'Import and Manage Facebook Galleries.',
 				'de' => 'Manage your gallery.',
 				'nl' => 'Manage your gallery.',
 				'fr' => 'Manage your gallery.',
@@ -67,7 +67,6 @@ class Module_FbGallery extends Module {
 			'frontend' => TRUE,
 			'backend' => TRUE,
 			'menu' => 'content'
-			
 		);
 	}
 
@@ -77,14 +76,16 @@ class Module_FbGallery extends Module {
 					
 		$dch_album_fbgallery = "
 			CREATE TABLE ".$this->db->dbprefix('fbgallery_albums')." (
-			  `id` bigint(20) DEFAULT NULL,
-			  `cover_pid` bigint(20) DEFAULT NULL,
-			  `owner` bigint(20) unsigned DEFAULT NULL,
-			  `name` varchar(255) NOT NULL DEFAULT '',
-			  `link` varchar(255) NOT NULL,
-			  `created` datetime DEFAULT NULL,
-			  `modified` datetime DEFAULT NULL,
-			  `active` tinyint(1) unsigned NOT NULL DEFAULT '1'
+				`id` bigint(20) DEFAULT NULL,
+				`cover_pid` bigint(20) DEFAULT NULL,
+				`owner` bigint(20) unsigned DEFAULT NULL,
+				`name` varchar(255) NOT NULL DEFAULT '',
+				`link` varchar(255) NOT NULL,
+				`index` tinyint(5) NOT NULL,
+				`created` datetime DEFAULT NULL,
+				`modified` datetime DEFAULT NULL,
+				`active` tinyint(1) unsigned NOT NULL DEFAULT '1',
+				PRIMARY KEY (`id`)
 			) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 		";					
 							
@@ -93,25 +94,27 @@ class Module_FbGallery extends Module {
 		
 		$dch_photos_fbgallery = "
 			CREATE TABLE ".$this->db->dbprefix('fbgallery_photos')." (
-			  `id` bigint(20) DEFAULT NULL,
-			  `aid` bigint(20) DEFAULT NULL,
-			  `picture` text NOT NULL,
-			  `source` text NOT NULL,
-			  `link` text NOT NULL,
-			  `name` text,
-			  `created` datetime DEFAULT NULL,
-			  `modified` datetime NOT NULL,
-			  `active` tinyint(4) unsigned NOT NULL DEFAULT '1'
+				`id` bigint(20) DEFAULT NULL,
+				`aid` bigint(20) DEFAULT NULL,
+				`picture` varchar(255) NOT NULL,
+				`source` varchar(255) NOT NULL,
+				`link` varchar(255) NOT NULL,
+				`name` varchar(255) NOT NULL DEFAULT '',
+				`index` tinyint(5) NOT NULL,
+				`created` datetime DEFAULT NULL,
+				`modified` datetime NOT NULL,
+				`active` tinyint(4) unsigned NOT NULL DEFAULT '1',
+				PRIMARY KEY (`id`)
 			) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 		";			
 		
 		$this->dbforge->drop_table('fbgallery_options');
 		$dch_options_fbgallery = "
 		CREATE TABLE ".$this->db->dbprefix('fbgallery_options')." (
-		  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-		  `option_name` varchar(64) NOT NULL DEFAULT '',
-		  `option_value` text NOT NULL,
-		  PRIMARY KEY (`id`)
+			`id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+			`option_name` varchar(64) NOT NULL DEFAULT '',
+			`option_value` text NOT NULL,
+			PRIMARY KEY (`id`)
 		) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 		";
 		

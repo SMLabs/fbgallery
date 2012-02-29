@@ -88,35 +88,49 @@ height:150px;
 .gallery_bottom {
     padding: 30px 0;
 }
-.gallery .normal_btn span {
-    background-image: url("../img/bullet_back.png");
-    padding: 15px 25px 15px 40px;
-}
-.gallery .normal_btn:hover span {
-    background-image: url("../img/bullet_back.png");
-    padding: 15px 25px 15px 40px;
-}
-.flr{float:right;}
-.fll{float:left;}
 
-.jaxnav-paging {
-    background: none;
-	padding:0;
-	margin:0;
-}
-.jaxnav-paging a {
-    float: right;
-}
-.jaxnav-paging a:link span {
-    background: url("../img/arrows.png") no-repeat scroll 15px 20px #FFFFFF;
+/* Paging Buttons */
+.fbgal-album-paging a span{
+	border:1px solid #dbeaf3;
+    padding: 15px 25px 15px 40px;
+	color:#a6cbe2;
+	font-weight:600;
+	font-size:9pt;
+	float:left;
+	margin:10px 0px;
+	
+    background: #FFFFFF url("../img/arrows.png") no-repeat 5% 20px;
     color: #7CACC8;
     font-weight: 400;
     padding: 15px 30px;
 }
-.jaxnav-paging a.jaxnav-prev {
+
+.fbgal-album-paging a:hover span{
+	border:1px solid #dbeaf3;
+	color:#3A7EB7;
+	font-size:9pt;
+	float:left;
+	margin:10px 0px
+    padding: 15px 25px 15px 40px;
+}
+
+.flr{float:right;}
+.fll{float:left;}
+
+.fbgal-album-paging {
+    background: none;
+	padding:0;
+	margin:0;
+}
+.fbgal-album-paging a {
+    float: right;
+}
+
+.fbgal-album-paging a.fbgal-prev-album {
     margin-right: 10px;
 }
-.jaxnav-paging a.jaxnav-next span {
+
+.fbgal-album-paging a.fbgal-next-album span {
     padding-right: 30px;
-	background-position:101px -29px;
+	background-position:95% -29px !important;
 }

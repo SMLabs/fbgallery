@@ -1,21 +1,58 @@
+#content-body{
+	position:static;
+}
+
 .fbgal-heading h3{overflow:hidden;}
 .fbgal-heading .btn{float:right;}
 
+.fbgal-photos-pad li{
+	display:block;
+	width:125px;
+	height:151px;
+	float:left;
+	overflow:hidden;
+	position:relative;
+}
+
+.fbgal-photos-pad li.placeholder{
+	display:block;
+	width:123px;
+	height:149px;
+	float:left;
+	background:#CCC;
+	border:1px solid #AAA;
+	border-radius:5px;
+	padding:0;
+}
+
+
+
 /** photos **/
 .fbgal-photo{
-	float: left;
-	width: 110px;
 	overflow: hidden;
 	margin: 5px 5px;
+	position:relative;
 }
 
 .fbgal-photo-pad{
 	padding:5px;
+	border:1px solid #AAA;
+	background:#ccc;
+	overflow:hidden;
+	border-radius: 5px;
+	position:relative;
+}
+
+.fbgal-photo.inactive .fbgal-photo-pad{
+	border:1px solid #a55;
+	background-color:#faa;
 }
 
 .fbgal-photo-operations{
 	text-align:right;
 	padding-top:3px;
+	font-size:12px;
+	position:relative;
 }
 
 .fbgal-photo-img{
@@ -25,6 +62,7 @@
 	width:100px;
 	background-repeat: no-repeat;
 	background-position:center;
+	border:1px solid #AAA;
 }
 
 /** Connect **/
@@ -38,4 +76,39 @@
 	vertical-align: middle;
 	text-align: center;
 	border-bottom:none;
+}
+
+.fbgal-photo.inactive .fbgal-photo-img{
+	border:1px solid #a55;
+}
+
+.fbgal-photo .fbgal-op-zoom{
+	display:block;
+	position:relative;
+	width:24px;
+	height:24px;
+	background-image:url('../img/fbgal-zoom.png');
+	float:left;
+}
+
+.fbgal-photo .fbgal-op-activation{
+	display:block;
+	position:relative;
+	width:24px;
+	height:24px;
+	background-image:url('../img/fbgal-remove.png');
+	float:right;
+}
+
+.fbgal-photo.inactive .fbgal-op-activation{
+	background-image:url('../img/fbgal-add.png');
+}
+
+div.fbgal-photo-operations a span{
+	display:block;
+	position:relative;
+	width:24px;
+	height:24px;
+	overflow:hidden;
+	text-indent:100%;
 }

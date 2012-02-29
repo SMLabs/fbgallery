@@ -1,43 +1,44 @@
 <section class="title"><h4>Facebook Galleries</h4></section>
 <section class="item">
 
-<?php if(count($photos_albums) > 0){?>
+<?php if(count($albums) > 0):?>
 	<table>
-<?php   foreach($photos_albums as $album_key=>$album_val){?>
+	<?php foreach($albums as $album): ?>
 	<tr class="fbgal-album">
 		<th class="fbgal-heading">
-			<h3><?=$album_val['album_name'] ?><a class="fbgal-remove btn red" href="<?=site_url('admin/'.$this->module.'/delete/album/'.$album_key) ?>">Remove</a></h3>
+			<h3>
+				<?=$album->name ?>
+				<a class="fbgal-remove btn red" href="<?=site_url('admin/'.$this->module.'/delete/album/'.$album->id)?>">Remove</a>
+			</h3>
 		</th>
 	</tr>
 	<tr>
 		<td class="fbgal-photos">
-		<div class="fbgal-photos-pad">
-<?php
-			$count = 0;
-			foreach($album_val as $photo_key=>$photo_val){
-				if($count>2){
-?>
-	        <div class="fbgal-photo">
-	        	<div class="fbgal-photo-pad">
-	        		<div class="fbgal-photo-img" style="background-image:url('<?=$photo_val['photo_picture'] ?>')">&nbsp;&nbsp;</div>
-	        		
-	        		<div class="fbgal-photo-operations">
-	        			<a href="<?=site_url('admin/'.$this->module.'/delete/photo/'.$photo_key) ?>">Delete</a> | <a href="<?=$photo_val['photo_source']?>" rel="prettyPhoto[gallery]">View</a>
-	        		</div>
-	        		
+		<ul class="fbgal-photos-pad sortphotos">
+		<?php foreach($album->photos as $photo):?>
+	        <li id="photo_<?=$photo->id?>">
+	        	<div class="fbgal-photo <?=$photo->active==1 ? 'active' : 'inactive' ?>">
+	        		<div class="fbgal-photo-pad">
+						<div class="fbgal-photo-img"><img src="<?=site_url($this->module.'/thumb/?src='.$photo->source.'&width=100&height=100')?>" /></div>
+						<div class="fbgal-photo-operations">
+				<?php if($photo->active==1):?>
+		        			<a class="fbgal-op-activation" href="<?=site_url('admin/'.$this->module.'/deactivate/photo/'.$photo->id)?>"><span>Deactivate</span></a>
+		        <?php else:?>
+		        			<a class="fbgal-op-activation" href="<?=site_url('admin/'.$this->module.'/activate/photo/'.$photo->id)?>"><span>Activate</span></a>
+		        <?php endif;?>
+		        			<a class="fbgal-op-zoom" href="<?=$photo->source?>" rel="prettyPhoto[<?=$album->id?>]"><span>View</span></a>
+		        		</div>
+		        		
+		        	</div>
 	        	</div>
-	        </div>
-<?php 
-				}
-				$count++;
-			}
-?>
-		</div>
+	        </li>
+		<?php endforeach;?>
+		</ul>
 	    </td>
 	</tr>
-<?php   }?>
+	<?php endforeach;?>
 	</table>    
-<?php }else{?>
+<?php else:?>
 	<table class="no-records">
 		<tr>
 			<td>
@@ -45,5 +46,5 @@
 			</td>
 		</tr>
 	</table>
-<?php }?>
+<?php endif;?>
 </section>

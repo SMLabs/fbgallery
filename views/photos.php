@@ -10,10 +10,6 @@ var albums = Array();
 <?php }?>
 var current_index  = albums.indexOf("<?php echo $this->uri->segment(3) ?>");
 var next = current_index+1;
-$('.jaxnav-next').click(function(){
-	//$('.jaxnav-info-wrapper').load('http://localhost/dchf/fbgallery/photos/' + next);
-});
-
 });
 </script>
 
@@ -35,12 +31,12 @@ $('.jaxnav-next').click(function(){
 </div>
 <!-- theme header -->
 <section>
-  <div class="gallery"> <a href="<?php echo site_url('fbgallery') ?>" class="normal_btn fll"><span>View All Galleries</span></a> </div>
-  <div class="flr">
-    <div class="jaxnav-paging"> <?php echo $pagination; ?> </div>
-  </div>
+	<div class="gallery"> <a href="<?php echo site_url('fbgallery') ?>" class="normal_btn fll"><span>View All Galleries</span></a> </div>
+	<div class="flr">
+	<?=$pagination?>
+	</div>
 </section>
-<h1> <strong><?php echo $album[0]->name ?></strong> </h1>
+<h1> <strong><?php echo $album->name ?></strong> </h1>
 <div id="gallery_main">
   <div id="gallery_full" class="gallery_right">
     <ul>

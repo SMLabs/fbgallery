@@ -18,7 +18,8 @@ class Admin extends Admin_Controller {
 	 *
 	 * @return void
 	 */
-	function __construct(){
+	function __construct()
+	{
 	
 		// Call the parent's constructor method
 		parent::__construct();
@@ -32,7 +33,8 @@ class Admin extends Admin_Controller {
 		// Get the user ID, if it exists
 		$user = $this->ion_auth->get_user();
 		
-		if(!empty($user)){
+		if(!empty($user))
+		{
 			$this->user_id = $user->id;	
 			$this->config->set_item('user_id', $this->user_id );
 		}else{
@@ -60,25 +62,46 @@ class Admin extends Admin_Controller {
 	}
 	
 	
-	function index(){
+	function index()
+	{
+		$albums = $this->fbgallery_model->get_albums();
 		
-		if($this->user_id != ""  ) {
-			$data['photos_albums']= $this->fbgallery_model->getAllPhotosAndAlbums();
-						
-			$this->template
-				->append_metadata(css('prettyPhoto.css', $this->module ))
-				->append_metadata(js('jquery.prettyPhoto.js', $this->module ))
-				->append_metadata(js('init.js', $this->module ))
-				->build('admin/main',$data);
-
-		}else {
-			$this->template->build('admin/access_failed');
+		if($albums)
+		{
+			foreach($albums as $index=>$album) $albums[$index]->photos = (array)$this->fbgallery_model->get_album_photos($album->id);
 		}
+		else
+		{
+			$albums = array();
+		}
+		
+		$data['albums'] = $albums;
+		
+		$this->template
+			->append_metadata( js('jquery-ui-1.8.18.custom.min.js',$this->module))
+			->append_metadata(css('prettyPhoto.css', $this->module))
+			->append_metadata(js('jquery.prettyPhoto.js', $this->module))
+			->append_metadata(js('init.js', $this->module ))
+			->build('admin/main',$data);
 	}
 	
-	function settings(){
+	function order_photos()
+	{
+		$order = $this->input->post('order');
+		foreach($order as $index=>$id){
+			echo $index;
+			if(!$this->fbgallery_model->set_photo($id,'index',$index)){
+				echo 'Update Failed at index='.$index.', id='.$id;
+			};
+		}
 		
-		if($_SERVER['REQUEST_METHOD']=='POST'){
+	}
+	
+	function settings()
+	{
+		
+		if($_SERVER['REQUEST_METHOD']=='POST')
+		{
 			$this->fbgallery_model->saveSettings('app_id',$_POST['app_id']);
 			$this->fbgallery_model->saveSettings('app_secret',$_POST['app_secret']);
 			redirect(site_url('admin/' . $this->module));
@@ -87,31 +110,39 @@ class Admin extends Admin_Controller {
 		$data['facebook'] = $this->facebook;
 		($this->facebook->getUser()) ? $data['fb_user_profile'] = $this->facebook->api('/me') : null;
 		$data['app_id']= $this->fbgallery_model->getSettings('app_id');
-		$data['app_secret']= $this->fbgallery_model->getSettings('app_secret');			
+		$data['app_secret']= $this->fbgallery_model->getSettings('app_secret');
 		
 		$this->template->build('admin/settings',$data);
 	}	
 	
-	function import(){
+	function import()
+	{
 		
 		// Connect
 		if(!$this->facebook->getUser())redirect(site_url('admin/'.$this->module.'/connect'));
 		
 		$data['facebook'] = $this->facebook;
 			
-		try {
-			if($_SERVER['REQUEST_METHOD']=='POST'){
+		try 
+		{
+			if($_SERVER['REQUEST_METHOD']=='POST')
+			{
 				$album_info = $this->facebook->api($_POST['aid']);
-				$photos_info = $this->facebook->api($_POST['aid'].'/photos');
+				$photos_info = $this->facebook->api($_POST['aid'].'/photos/?limit=9999');// limit set to 1000 to get all photos				
 				$this->fbgallery_model->saveAlbum($album_info, $photos_info['data']);
-				redirect(site_url('admin/' . $this->module));
+				redirect($_SERVER['HTTP_REFERER']);
 			}
 			
 			$data['fb_user_profile'] = $this->facebook->api('/me');
 			$data['albums'] = $this->facebook->api('me/albums');
 			
-			//print_r($data['albums']);exit;
-		} catch (FacebookApiException $e) {
+			$albums = $this->fbgallery_model->get_all_album_ids();
+			$data['imported'] = array();
+			foreach($albums as $index => $album) $data['imported'][] = $album->id;
+			
+		}
+		catch (FacebookApiException $e)
+		{
 			$data['exception'] = $e;
 			$this->template
 				->build('admin/facebookapiexception',$data);
@@ -121,53 +152,112 @@ class Admin extends Admin_Controller {
 			->build('admin/import',$data);
 		
 	}
-
-	function delete( $action_on,$id ){
-		if($action_on == 'album' && $id != '')
-			$this->fbgallery_model->deleteAlbum($id);
-		
-		if($action_on == 'photo' && $id != '')
-			$this->fbgallery_model->deletePhoto($id);
-			
-		redirect(site_url('admin/' . $this->module));
-	}
 	
 
-	function import_fanpage($pageid=0){
+	function import_fanpage($pageid=0)
+	{
 	
 		// Connect
 		if(!$this->facebook->getUser())redirect(site_url('admin/'.$this->module.'/connect'));
 		
-		try {
-			if($_SERVER['REQUEST_METHOD']=='POST'){
+		$data['facebook'] = $this->facebook;
+		
+		try 
+		{
+			if($_SERVER['REQUEST_METHOD']=='POST')
+			{
 				$album_info = $this->facebook->api($_POST['aid']);
 				$photos_info = $this->facebook->api($_POST['aid'].'/photos');
 				$this->fbgallery_model->saveAlbum($album_info, $photos_info['data']);
-				redirect(site_url('admin/' . $this->module));
+				redirect($_SERVER['HTTP_REFERER']);
 			}
-		
-			$data['facebook'] = $this->facebook;
-			if($this->facebook->getUser()){
+			if($this->facebook->getUser())
+			{
 				$data['fb_user_profile'] = $this->facebook->api('/me');
-				if($pageid != 0){ 
-					$data['albums'] = $this->facebook->api($pageid.'/albums');					
+				
+				if($pageid != 0)
+				// Choose an Album from the Fanpage
+				{ 
 					
-				}else{
+					$data['albums'] = $this->facebook->api($pageid.'/albums');			
+					$albums = $this->fbgallery_model->get_all_album_ids();
+					$data['imported'] = array();
+					foreach($albums as $index => $album) $data['imported'][] = $album->id;					
+				}
+				else
+				// Choose a Fanpage
+				{
 					$data['accounts'] = $this->facebook->api('me/accounts');
+					//print_r($data['accounts']['data']);exit;
 				}
 				
 			}
-		} catch (FacebookApiException $e) {
-			$data['facebook'] = false;
-			$data['fb_user_profile'] = false;
-			$data['albums'] = false;
+		} 
+		catch (FacebookApiException $e)
+		{
+			$data['exception'] = $e;
+			$this->template
+				->build('admin/facebookapiexception',$data);
 		}
 	
 		$this->template
 			->build('admin/import_fanpage',$data);
 	}
 	
-	function connect(){
+	function delete($scope,$id)
+	{
+		if($id != '' && $scope!=''){
+			switch($scope){
+				case 'album':
+					$this->fbgallery_model->delete_album($id);
+					break;
+				case 'photo':
+					$this->fbgallery_model->delete_photo($id,0);
+					break;
+			}
+			redirect($_SERVER['HTTP_REFERER']);
+		}
+		redirect(site_url($this->module));
+	}
+	
+	// Album Activation/Deactivation
+	
+	function activate($scope,$id)
+	{
+		if($id!='' && $scope!='')
+		{
+			switch($scope){
+				case 'album':
+					$this->fbgallery_model->activate_album($id,1);
+					break;
+				case 'photo':
+					$this->fbgallery_model->activate_photo($id,1);
+					break;
+			}
+			redirect($_SERVER['HTTP_REFERER']);
+		}
+		redirect(site_url($this->module));
+	}
+	
+	function deactivate($scope,$id)
+	{
+		if($id!='' && $scope!='')
+		{
+			switch($scope){
+				case 'album':
+					$this->fbgallery_model->activate_album($id,0);
+					break;
+				case 'photo':
+					$this->fbgallery_model->activate_photo($id,0);
+					break;
+			}
+			redirect($_SERVER['HTTP_REFERER']);
+		}
+		redirect(site_url($this->module));
+	}
+	
+	function connect()
+	{
 		$this->template->build('admin/connect');
 	}
 

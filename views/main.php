@@ -25,18 +25,24 @@
     <h3>Chose a Category</h3>
     <ul>
       <li><a href="<?php echo site_url($this->module) ?>">View All Galleries</a></li>
-      <?php foreach($albums as $album){?>
+<?php foreach($albums as $album):?>
       <li><a href="<?php echo site_url($this->module.'/photos/'.$album->id) ?>"><?php echo $album->name ?></a></li>
-      <?php }?>
+<?php endforeach;?>
     </ul>
   </div>
   <div class="gallery_right">
     <ul>
-      <?php foreach($albums as $album){?>
-      <li> <a href="<?php echo site_url($this->module.'/photos/'.$album->id) ?>"> <img src="<?=site_url($this->module.'/thumb/?src='.$album->source.'&width=210&height=160')?>" class="photo"  />
-        <div class="img_div"> <img src="<?php echo $addons."modules/".$this->module ?>/img/zoom.png" class="search_img" /> </div>
-        <?php echo $album->name ?></a> </li>
-      <?php }?>
+<?php foreach($albums as $album):?>
+      <li> 
+      	<a href="<?php echo site_url($this->module.'/photos/'.$album->id) ?>">
+      		<img src="<?=site_url($this->module.'/thumb/?src='.$album->source.'&width=210&height=160')?>" class="photo"  />
+        	<span class="img_div"> 
+        		<img src="<?php echo $addons."modules/".$this->module ?>/img/zoom.png" class="search_img" />
+        	</span>
+        	<?php echo $album->name ?>
+        </a>
+      </li>
+<?php endforeach;?>
     </ul>
   </div>
 </div>
