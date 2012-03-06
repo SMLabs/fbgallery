@@ -99,7 +99,7 @@ class Module_FbGallery extends Module {
 				`picture` varchar(255) NOT NULL,
 				`source` varchar(255) NOT NULL,
 				`link` varchar(255) NOT NULL,
-				`name` varchar(255) NOT NULL DEFAULT '',
+				`name` longtext NOT NULL,
 				`index` tinyint(5) NOT NULL,
 				`created` datetime DEFAULT NULL,
 				`modified` datetime NOT NULL,
