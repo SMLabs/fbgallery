@@ -167,7 +167,7 @@ class Admin extends Admin_Controller {
 			if($_SERVER['REQUEST_METHOD']=='POST')
 			{
 				$album_info = $this->facebook->api($_POST['aid']);
-				$photos_info = $this->facebook->api($_POST['aid'].'/photos');
+				$photos_info = $this->facebook->api($_POST['aid'].'/photos/?limit=9999');
 				$this->fbgallery_model->saveAlbum($album_info, $photos_info['data']);
 				redirect($_SERVER['HTTP_REFERER']);
 			}
