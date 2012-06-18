@@ -75,14 +75,15 @@ class Admin extends Admin_Controller {
 			$albums = array();
 		}
 		
-		$data['albums'] = $albums;
+		//$data['albums'] = $albums;
 		
 		$this->template
-			->append_metadata( js('jquery-ui-1.8.18.custom.min.js',$this->module))
-			->append_metadata(css('prettyPhoto.css', $this->module))
-			->append_metadata(js('jquery.prettyPhoto.js', $this->module))
-			->append_metadata(js('init.js', $this->module ))
-			->build('admin/main',$data);
+				->append_js('module::jquery-ui-1.8.18.custom.min.js')
+				->append_css('module::prettyPhoto.css')
+				->append_js('module::jquery.prettyPhoto.js')
+				->append_js('module::init.js')
+				->set('albums', $albums)
+				->build('admin/main');
 	}
 	
 	function order_photos()
