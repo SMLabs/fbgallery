@@ -40,7 +40,7 @@
 			<tr>
 				<td>
 					<?php if(!$facebook->getUser()):?>
-					<a href="#" onclick="loginUser('<?=site_url('admin/'.$this->module.'/import') ?>'); return false;"><img src="<?=image_url('fbconnect.png',$this->module) ?>" alt="Facebook Login" /> </a>
+					<a href="#" onclick="loginUser('<?=site_url('admin/'.$this->module.'/import') ?>'); return false;"><?php echo Asset::img('module::fbconnect.png','Facebook Connect'); ?> </a>
 					<?php else:?>
 					<span><img src="https://graph.facebook.com/<?php echo $facebook->getUser()?>/picture/200x200" /> <?=$fb_user_profile['name'] ?></span>
 					<?php endif;?>
