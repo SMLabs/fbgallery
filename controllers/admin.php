@@ -57,8 +57,7 @@ class Admin extends Admin_Controller {
 		if(($this->config->item('app_id') == '' || $this->config->item('app_secret') == '') && $this->uri->segment('3') != 'settings')
 			redirect(site_url('admin/'.$this->module.'/settings'));
 		
-		$this->template
-			->append_metadata(css('admin.css', $this->module ));
+		$this->template->append_css('module::admin.css');
 	}
 	
 	
